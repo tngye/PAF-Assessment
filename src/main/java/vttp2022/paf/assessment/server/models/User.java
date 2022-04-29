@@ -1,5 +1,8 @@
 package vttp2022.paf.assessment.server.models;
 
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.util.MultiValueMap;
+
 // Do not change this class
 
 public class User {
@@ -23,5 +26,21 @@ public class User {
 	public String toString() {
 		return "user_id: %s, username: %s, name: %s"
 				.formatted(userId, username, name);
+	}
+
+    public static User create(SqlRowSet result) {
+		User user = new User();
+		user.setUserId(result.getString("user_id"));
+		user.setUsername(result.getString("username"));
+		user.setName(result.getString("name"));
+        return user;
+    }
+
+	public User create(MultiValueMap<String, String> payload) {
+		User user = new User();
+		user.setUserId(payload.getFirst("user_id"));
+		user.setUsername(payload.getFirst("username"));
+		user.setName(payload.getFirst("name"));
+        return user;
 	}
 }
